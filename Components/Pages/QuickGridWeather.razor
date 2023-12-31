@@ -1,0 +1,38 @@
+@page "/quickgrid-WeatherForecast"
+@using Microsoft.AspNetCore.Components.QuickGrid
+
+<QuickGrid Items="@weatherForecast">
+    <PropertyColumn Property="@(p => p.Date)" Format="yyyy-MM-dd" Sortable="true" />
+    <PropertyColumn Property="@(p => p.TemperatureC)" Sortable="true" />
+    <PropertyColumn Property="@(p => p.Summary)" Sortable="true" />
+    <PropertyColumn Property="@(p => p.TemperatureF)" Sortable="true" />        
+</QuickGrid>
+
+@code {
+    //private record WeatherForecast(DateOnly Date, int TemperatureC , String? Summary,int TemperatureF);
+     private class WeatherForecast
+    {
+        public DateOnly Date { get; set; }
+        public int TemperatureC { get; set; }
+        public string? Summary { get; set; }
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+
+        public WeatherForecast(DateOnly date,int temperatureC,String? summary)
+        {
+            Date = date;
+            TemperatureC = temperatureC;
+            Summary = summary;          
+        }
+    }
+
+    private IQueryable<WeatherForecast> weatherForecast = new[]
+    {
+        new WeatherForecast(new DateOnly(1985, 3, 16),Random.Shared.Next(-20, 55),"Freezing"),
+        new WeatherForecast(new DateOnly(1991, 12, 1),Random.Shared.Next(-20, 55),"Freezing"),
+        new WeatherForecast(new DateOnly(1958, 10, 10),Random.Shared.Next(-20, 55),"Freezing"),
+        new WeatherForecast(new DateOnly(1922, 4, 27),Random.Shared.Next(-20, 55),"Freezing"),
+        new WeatherForecast(new DateOnly(2011, 5, 3),Random.Shared.Next(-20, 55),"Freezing"),
+        new WeatherForecast(new DateOnly(2004, 1, 9),Random.Shared.Next(-20, 55),"Freezing"),
+
+    }.AsQueryable();
+}
